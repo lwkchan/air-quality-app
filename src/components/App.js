@@ -1,5 +1,7 @@
 import React, { useState, Suspense } from 'react'
 import CityInfo from './CityInfo'
+import Spinner from './Spinner'
+import styles from './styles/App.module.css'
 
 const availableCities = ['Hong Kong', 'London', 'Macau', 'New York']
 
@@ -7,10 +9,10 @@ function App() {
   const [chosenCity, setChosenCity] = useState(null)
   return (
     <div className="App">
-      <h1>Air quality app</h1>
+      <h1 className={styles.header}>Air quality app</h1>
       {chosenCity ? (
         <>
-          <Suspense fallback={<h1>Loading...</h1>}>
+          <Suspense fallback={<Spinner />}>
             <CityInfo chosenCity={chosenCity} />
             <button
               onClick={() => {

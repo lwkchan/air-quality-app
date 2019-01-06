@@ -1,0 +1,45 @@
+.location_indicator {
+  margin: 30px auto;
+  position: relative;
+}
+
+.location_indicator:before,
+.location_indicator:after {
+  position: absolute;
+  content: '';
+}
+
+.location_indicator:before {
+  width: 20px;
+  height: 20px;
+  border-radius: 100% 100% 100% 0;
+  box-shadow: 0px 0px 0px 2px rgba(0, 0, 0, 1);
+  -webkit-animation: mapping 1s linear infinite;
+  -moz-animation: mapping 1s linear infinite;
+  animation: mapping 1s linear infinite;
+  -webkit-transform: rotate(-46deg);
+  -moz-transform: rotate(-46deg);
+  transform: rotate(-46deg);
+}
+
+.location_indicator:after {
+  width: 30px;
+  height: 10px;
+  border-radius: 100%;
+  left: 44px;
+  background-color: rgba(255, 255, 255, 0.2);
+  top: 24px;
+  z-index: -1;
+}
+
+@keyframes mapping {
+  0% {
+    top: 0;
+  }
+  50% {
+    top: -5px;
+  }
+  100% {
+    top: 0;
+  }
+}
