@@ -1,28 +1,57 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, Suspense } from 'react'
+import { unstable_createResource } from 'react-cache'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+const APIResource = unstable_createResource(path => {
+  return fetch(path).then(response => response.json())
+})
+
+function CityInfo(props) {
+  const data = APIResource.read(
+    'http://api.airvisual.com/v2/city?state=hong-kong&country=hong-kong&city=hong-kong&key=uRkE8CLxyaBr8JGNM'
+  )
+  console.log(data)
+  return <h1>You've chosen {props.chosenCity}</h1>
 }
 
-export default App;
+const availableCities = ['Hong Kong', 'London', 'Macau', 'New York']
+
+function App() {
+  const [chosenCity, setChosenCity] = useState(null)
+  return (
+    <div className="App">
+      <h1>Air quality app</h1>
+      {chosenCity ? (
+        <>
+          <Suspense fallback={<h1>Loading...</h1>}>
+            <CityInfo chosenCity={chosenCity} />
+            <button
+              onClick={() => {
+                setChosenCity(null)
+              }}
+            >
+              Back
+            </button>
+          </Suspense>
+        </>
+      ) : (
+        <>
+          <h2>Currently available cities:</h2>
+          <ul>
+            {availableCities.map(city => (
+              <li
+                key={`city--${city}`}
+                onClick={event => {
+                  setChosenCity(city)
+                }}
+              >
+                {city}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </div>
+  )
+}
+
+export default App
