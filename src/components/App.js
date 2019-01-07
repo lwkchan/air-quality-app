@@ -30,7 +30,7 @@ function App() {
             {availableCities.map(city => (
               <li
                 key={`city--${city}`}
-                onClick={event => {
+                onClick={() => {
                   setChosenCity(city)
                 }}
               >
