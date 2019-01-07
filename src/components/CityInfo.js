@@ -1,24 +1,35 @@
 import React from 'react'
-import { APIResource } from '../api'
+import { fetchCityInfo } from '../api'
+import { unstable_createResource as createResource } from 'react-cache'
 
-const API_ROOT_URL = 'http://api.airvisual.com/v2/'
-const CITY_QUERY = 'city?'
-const KEY_PARAM = '&key=uRkE8CLxyaBr8JGNM'
+const cityResource = createResource(fetchCityInfo)
 
-const resourceKey = {
-  'Hong Kong': 'state=hong-kong&country=hong-kong&city=hong-kong',
-  Macau: '',
-  London: '',
-  'New York': ''
+const mainPollutantKey = {
+  p2: 'PM2.5',
+  p1: 'PM10',
+  o3: 'Ozone O3',
+  n2: 'Nitrogen dioxide',
+  s2: 'Sulfur dioxide',
+  co: 'Carbon monoxide'
 }
 
-function CityInfo(props) {
-  console.log('props', props)
-  const data = APIResource.read(
-    'http://api.airvisual.com/v2/city?state=hong-kong&country=hong-kong&city=hong-kong&key=uRkE8CLxyaBr8JGNM'
+function CityInfo({ chosenCity }) {
+  const { weather, pollution } = cityResource.read(chosenCity).data.current
+  return (
+    <>
+      <h1>Current situation in {chosenCity}</h1>
+      <h2>Weather</h2>
+      <ul>
+        <li>Humidity: {weather.hu}%</li>
+        <li>Average temperature: {weather.tp} Celsuis</li>
+      </ul>
+      <h2>Pollution</h2>
+      <ul>
+        <li>AQI (US): {pollution.aqius}</li>
+        <li>Main pollutant: {mainPollutantKey[pollution.mainus]}</li>
+      </ul>
+    </>
   )
-  console.log(data)
-  return <h1>You've chosen {props.chosenCity}</h1>
 }
 
 export default CityInfo
