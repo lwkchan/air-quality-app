@@ -11,8 +11,6 @@ Assuming you have node and yarn installed:
 
 ```
 git clone https://github.com/lwkchan/air-quality-app.git
-
 yarn
-
 yarn start
 ```
