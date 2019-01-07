@@ -17,13 +17,13 @@ function CityInfo({ chosenCity }) {
   const { weather, pollution } = cityResource.read(chosenCity).data.current
   return (
     <>
-      <h1>Current situation in {chosenCity}</h1>
-      <h2>Weather</h2>
+      <h2>{chosenCity}</h2>
+      <h3>Weather</h3>
       <ul>
         <li>Humidity: {weather.hu}%</li>
         <li>Average temperature: {weather.tp} Celsuis</li>
       </ul>
-      <h2>Pollution</h2>
+      <h3>Pollution</h3>
       <ul>
         <li>AQI (US): {pollution.aqius}</li>
         <li>Main pollutant: {mainPollutantKey[pollution.mainus]}</li>
