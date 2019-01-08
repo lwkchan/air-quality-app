@@ -14,12 +14,12 @@ const AppContainer = styled.div`
 `
 const MainHeader = styled.h1`
   font-size: 2em;
-  text-align: center;
   color: palevioletred;
 `
 
 const CitiesList = styled.ul`
   list-style-type: none;
+  padding-left: 0;
   li {
     cursor: pointer;
     :hover {
@@ -45,14 +45,12 @@ function App() {
       {chosenCity ? (
         <>
           <Suspense fallback={<Spinner />}>
-            <CityInfo chosenCity={chosenCity} />
-            <button
-              onClick={() => {
+            <CityInfo
+              chosenCity={chosenCity}
+              resetChosenCity={() => {
                 setChosenCity(null)
               }}
-            >
-              Back
-            </button>
+            />
           </Suspense>
         </>
       ) : (

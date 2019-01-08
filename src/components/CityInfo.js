@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { fetchCityInfo } from '../api'
+import styled from 'styled-components'
 import { unstable_createResource as createResource } from 'react-cache'
 
-const cityResource = createResource(fetchCityInfo)
+let cityResource = createResource(fetchCityInfo)
 
 const mainPollutantKey = {
   p2: 'PM2.5',
@@ -13,7 +14,17 @@ const mainPollutantKey = {
   co: 'Carbon monoxide'
 }
 
-function CityInfo({ chosenCity }) {
+const ButtonsContainer = styled.div`
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  button {
+    margin-bottom: 5px;
+  }
+`
+
+function CityInfo({ chosenCity, resetChosenCity }) {
+  const [featureMessage, setFeatureMessage] = useState(null)
   const { weather, pollution } = cityResource.read(chosenCity).data.current
   return (
     <>
@@ -28,6 +39,23 @@ function CityInfo({ chosenCity }) {
         <li>AQI (US): {pollution.aqius}</li>
         <li>Main pollutant: {mainPollutantKey[pollution.mainus]}</li>
       </ul>
+      <ButtonsContainer>
+        <button
+          onClick={() => {
+            setFeatureMessage('Feature coming soon')
+          }}
+        >
+          Refresh
+        </button>
+        <button
+          onClick={() => {
+            resetChosenCity()
+          }}
+        >
+          Back
+        </button>
+        {featureMessage && <p>{featureMessage}</p>}
+      </ButtonsContainer>
     </>
   )
 }
