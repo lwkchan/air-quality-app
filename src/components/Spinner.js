@@ -1,8 +1,27 @@
 import React from 'react'
-import styles from './styles/Spinner.module.css'
+import styled, { keyframes } from 'styled-components'
+
+const slide = keyframes`
+  0% {
+    margin-left: 0;
+  }
+  100% {
+    margin-left: 80%;
+  }
+`
+const SpinnerContent = styled.h2`
+  margin: 50px auto;
+  animation: ${slide} 1s ease-in-out 0s infinite;
+`
 
 function Spinner() {
-  return <div className={styles.location_indicator} />
+  return (
+    <SpinnerContent>
+      <span role="img" aria-label="loading">
+        💨
+      </span>
+    </SpinnerContent>
+  )
 }
 
 export default Spinner
